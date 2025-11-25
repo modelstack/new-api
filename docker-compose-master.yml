@@ -1,0 +1,63 @@
+version: "3.4"
+
+services:
+  new-api:
+    image: soulterepk/new-api:latest
+    container_name: new-api
+    restart: always
+    command: --log-dir /app/logs
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/data
+      - ./logs:/app/logs
+    environment:
+      - SQL_DSN=root:123456@tcp(mysql:3306)/new-api
+      - REDIS_CONN_STRING=redis://default:password@redis:6379
+      - SESSION_SECRET=random_string # 多机部署时设置，必须修改这个随机字符串！！ （multi-node deployment, set this to a random string!!!!!!!）
+      - CRYPTO_SECRET=your_unique_crypto_secret
+      - TZ=Asia/Shanghai
+      - ERROR_LOG_ENABLED=true
+      - BATCH_UPDATE_ENABLED=true
+      - STREAMING_TIMEOUT=300
+      - SYNC_FREQUENCY=60
+      - FRONTEND_BASE_URL=https://modelstack.app
+      - UMAMI_WEBSITE_ID=51e95a50-f104-4206-af7e-2a867f2e6ab8
+
+    depends_on:
+      - redis
+      - mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q -O - http://localhost:3000/api/status | grep -o '\"success\":\\s*true' || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    environment:
+      - REDIS_PASSWORD=password
+      - TZ=Asia/Shanghai
+    ports:
+      - "6379:6379"
+
+  mysql:
+    image: mysql:8.2
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: random_string # ⚠️ IMPORTANT: Change this password in production!
+      MYSQL_DATABASE: new-api
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql_data:

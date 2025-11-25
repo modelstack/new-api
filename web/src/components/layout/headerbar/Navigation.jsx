@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SkeletonWrapper from '../components/SkeletonWrapper';
 
 const Navigation = ({
@@ -28,16 +28,26 @@ const Navigation = ({
   userState,
   pricingRequireAuth,
 }) => {
+  const location = useLocation();
+
   const renderNavLinks = () => {
     const baseClasses =
-      'flex-shrink-0 flex items-center gap-1 font-semibold rounded-md transition-all duration-200 ease-in-out';
-    const hoverClasses = 'hover:text-semi-color-primary';
-    const spacingClasses = isMobile ? 'p-1' : 'p-2';
-
-    const commonLinkClasses = `${baseClasses} ${spacingClasses} ${hoverClasses}`;
+      'flex-shrink-0 flex items-center gap-1 font-semibold rounded-md transition-all duration-200 ease-in-out px-3 py-2 text-sm';
 
     return mainNavLinks.map((link) => {
       const linkContent = <span>{link.text}</span>;
+      
+      const isActive = !link.isExternal && (
+        link.to === '/' 
+          ? location.pathname === '/' 
+          : location.pathname.startsWith(link.to)
+      );
+
+      const stateClasses = isActive
+        ? 'text-semi-color-primary bg-semi-color-fill-0'
+        : 'text-semi-color-text-2 hover:text-semi-color-text-0 hover:bg-semi-color-fill-0';
+
+      const commonLinkClasses = `${baseClasses} ${stateClasses}`;
 
       if (link.isExternal) {
         return (
@@ -70,7 +80,7 @@ const Navigation = ({
   };
 
   return (
-    <nav className='flex flex-1 items-center gap-1 lg:gap-2 mx-2 md:mx-4 overflow-x-auto whitespace-nowrap scrollbar-hide'>
+    <nav className='flex flex-1 items-center gap-1 mx-2 md:mx-4 overflow-x-auto whitespace-nowrap scrollbar-hide'>
       <SkeletonWrapper
         loading={isLoading}
         type='navigation'

@@ -65,7 +65,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            soulterepk/new-api:alpha-${{ matrix.arch }}
+            soulterepk/new-api:latest
             soulterepk/new-api:${{ steps.version.outputs.value }}-${{ matrix.arch }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
@@ -102,9 +102,9 @@ jobs:
       - name: Create & push manifest (Docker Hub - alpha)
         run: |
           docker buildx imagetools create \
-            -t soulterepk/new-api:alpha \
-            soulterepk/new-api:alpha-amd64 \
-            soulterepk/new-api:alpha-arm64
+            -t soulterepk/new-api:latest \
+            soulterepk/new-api:latest-amd64 \
+            soulterepk/new-api:latest-arm64
 
       - name: Create & push manifest (Docker Hub - versioned alpha)
         run: |

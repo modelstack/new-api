@@ -229,7 +229,7 @@ const Home = () => {
                 <div className='h-[1px] w-16 bg-gradient-to-l from-transparent to-semi-color-border'></div>
               </div>
 
-              <div className='grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-3 gap-6 md:gap-16 justify-items-center opacity-80 hover:opacity-100 transition-opacity duration-500'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 md:gap-16 justify-items-center opacity-80 hover:opacity-100 transition-opacity duration-500'>
                 <div className='flex items-center justify-center transition-transform hover:scale-110'>
                   <Gemini.Combine size={36} type='color'/>
                 </div>

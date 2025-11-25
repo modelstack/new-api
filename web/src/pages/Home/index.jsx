@@ -159,7 +159,7 @@ const Home = () => {
                   theme='solid'
                   type='primary'
                   size='large'
-                  className='!rounded-full !px-10 !py-6 !text-lg !font-bold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all transform hover:-translate-y-1'
+                  className='!rounded-full !px-10 !py-6 !text-lg !font-bold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all transform'
                   icon={<IconPlay />}
                 >
                   {t('立即开始')}

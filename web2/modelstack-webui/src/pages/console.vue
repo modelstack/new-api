@@ -57,8 +57,17 @@
       <!-- 右侧内容区 -->
       <v-col class="fill-height overflow-auto">
         <v-container fluid class="pa-4 pa-md-6">
+          <!-- 数据看板页面 -->
+          <DashboardStats v-if="activeMenu === 'dashboard'" />
+          
           <!-- 令牌管理页面 -->
-          <TokenManagement v-if="activeMenu === 'tokens'" />
+          <TokenManagement v-else-if="activeMenu === 'tokens'" />
+          
+          <!-- 模型列表页面 -->
+          <ModelList v-else-if="activeMenu === 'models'" />
+          
+          <!-- 审计日志页面 -->
+          <AuditLogs v-else-if="activeMenu === 'logs'" />
           
           <!-- 其他页面占位 -->
           <div v-else class="text-center py-16">
@@ -96,18 +105,22 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { API } from '@/utils/api'
 import TokenManagement from '@/components/console/TokenManagement.vue'
+import DashboardStats from '@/components/console/DashboardStats.vue'
+import ModelList from '@/components/console/ModelList.vue'
+import AuditLogs from '@/components/console/AuditLogs.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
 
-const activeMenu = ref('tokens')
+const activeMenu = ref('dashboard')
 const logoutDialog = ref(false)
 
 const menuItems = [
-  { title: '令牌管理', value: 'tokens', icon: 'mdi-key-variant' },
-  { title: '使用记录', value: 'logs', icon: 'mdi-history' },
-  { title: '数据统计', value: 'stats', icon: 'mdi-chart-bar' },
-  { title: '个人设置', value: 'settings', icon: 'mdi-cog' },
+  { title: '看板', value: 'dashboard', icon: 'mdi-view-dashboard' },
+  { title: '令牌', value: 'tokens', icon: 'mdi-key-variant' },
+  { title: '模型', value: 'models', icon: 'mdi-cube-outline' },
+  { title: '审计', value: 'logs', icon: 'mdi-history' },
+  { title: '个人', value: 'settings', icon: 'mdi-cog' },
 ]
 
 const currentMenuItem = computed(() => {

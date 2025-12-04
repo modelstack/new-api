@@ -27,6 +27,7 @@ import {
   Pagination,
   Button,
   Avatar,
+  Divider,
 } from '@douyinfe/semi-ui';
 import { IconHelpCircle } from '@douyinfe/semi-icons';
 import { Copy } from 'lucide-react';
@@ -47,8 +48,8 @@ import { useIsMobile } from '../../../../../hooks/common/useIsMobile';
 
 const CARD_STYLES = {
   container:
-    'w-12 h-12 rounded-2xl flex items-center justify-center relative shadow-md',
-  icon: 'w-8 h-8 flex items-center justify-center',
+    'w-6 h-6 rounded-md flex items-center justify-center relative',
+  icon: 'w-5 h-5 flex items-center justify-center',
   selected: 'border-blue-500 bg-blue-50',
   default: 'border-gray-200 hover:border-gray-300',
 };
@@ -99,7 +100,7 @@ const PricingCardView = ({
     if (!model || !model.model_name) {
       return (
         <div className={CARD_STYLES.container}>
-          <Avatar size='large'>?</Avatar>
+          <Avatar size='extra-small'>?</Avatar>
         </div>
       );
     }
@@ -108,7 +109,7 @@ const PricingCardView = ({
       return (
         <div className={CARD_STYLES.container}>
           <div className={CARD_STYLES.icon}>
-            {getLobeHubIcon(model.icon, 32)}
+            {getLobeHubIcon(model.icon, 20)}
           </div>
         </div>
       );
@@ -118,7 +119,7 @@ const PricingCardView = ({
       return (
         <div className={CARD_STYLES.container}>
           <div className={CARD_STYLES.icon}>
-            {getLobeHubIcon(model.vendor_icon, 32)}
+            {getLobeHubIcon(model.vendor_icon, 20)}
           </div>
         </div>
       );
@@ -130,12 +131,12 @@ const PricingCardView = ({
     return (
       <div className={CARD_STYLES.container}>
         <Avatar
-          size='large'
+          size='extra-small'
           style={{
-            width: 48,
-            height: 48,
-            borderRadius: 16,
-            fontSize: 16,
+            width: 24,
+            height: 24,
+            borderRadius: 6,
+            fontSize: 10,
             fontWeight: 'bold',
           }}
         >
@@ -234,7 +235,7 @@ const PricingCardView = ({
 
   return (
     <div className='px-2 pt-2'>
-      <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4'>
+      <div className='grid grid-cols-1 xl:grid-cols-1 2xl:grid-cols-1 gap-4'>
         {paginatedModels.map((model, index) => {
           const modelKey = getModelKey(model);
           const isSelected = selectedRowKeys.includes(modelKey);
@@ -249,109 +250,118 @@ const PricingCardView = ({
           });
 
           return (
-            <Card
-              key={modelKey || index}
-              className={`!rounded-2xl transition-all duration-200 hover:shadow-lg border cursor-pointer ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
-              bodyStyle={{ height: '100%' }}
-              onClick={() => openModelDetail && openModelDetail(model)}
-            >
-              <div className='flex flex-col h-full'>
-                {/* 头部：图标 + 模型名称 + 操作按钮 */}
-                <div className='flex items-start justify-between mb-3'>
-                  <div className='flex items-start space-x-3 flex-1 min-w-0'>
-                    {getModelIcon(model)}
-                    <div className='flex-1 min-w-0'>
-                      <h3 className='text-lg font-bold text-gray-900 truncate'>
-                        {model.model_name}
-                      </h3>
-                      <div className='flex items-center gap-3 text-xs mt-1'>
-                        {formatPriceInfo(priceData, t)}
+            <React.Fragment key={modelKey || index}>
+              <Card
+                className={`!rounded-2xl transition-all duration-200 cursor-pointer ${isSelected ? CARD_STYLES.selected : CARD_STYLES.default}`}
+                bordered={false}
+                bodyStyle={{ height: '100%' }}
+                onClick={() => openModelDetail && openModelDetail(model)}
+              >
+                <div className='flex flex-col h-full ml-1'>
+                  {/* 头部：模型名称 + 操作按钮 */}
+                  <div className='flex items-start justify-between'>
+                    <div className='flex items-start flex-1 min-w-0'>
+                      <div className='flex-1 min-w-0'>
+                        <h3 className='text-lg font-bold truncate' style={{ color: 'var(--semi-color-text-0)' }}>
+                          {model.model_name}
+                        </h3>
+                        <div className='flex items-center gap-3 text-xs mt-1'>
+                          {formatPriceInfo(priceData, t)}
+                        </div>
                       </div>
+                    </div>
+
+                    <div className='flex items-center space-x-2 ml-3'>
+                      {/* 复制按钮 */}
+                      <Button
+                        size='small'
+                        theme='outline'
+                        type='tertiary'
+                        icon={<Copy size={12} />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          copyText(model.model_name);
+                        }}
+                      />
+
+                      {/* 选择框 */}
+                      {/* {rowSelection && (
+                        <Checkbox
+                          checked={isSelected}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            handleCheckboxChange(model, e.target.checked);
+                          }}
+                        />
+                      )} */}
                     </div>
                   </div>
 
-                  <div className='flex items-center space-x-2 ml-3'>
-                    {/* 复制按钮 */}
-                    <Button
-                      size='small'
-                      theme='outline'
-                      type='tertiary'
-                      icon={<Copy size={12} />}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        copyText(model.model_name);
-                      }}
-                    />
+                  {/* 模型描述 - 占据剩余空间 */}
+                  <div className='flex-1 mb-4'>
+                    <p
+                      className='text-xs line-clamp-2 leading-relaxed'
+                      style={{ color: 'var(--semi-color-text-2)' }}
+                    >
+                      {getModelDescription(model)}
+                    </p>
+                  </div>
 
-                    {/* 选择框 */}
-                    {rowSelection && (
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(e) => {
-                          e.stopPropagation();
-                          handleCheckboxChange(model, e.target.checked);
-                        }}
-                      />
+                  {/* 底部区域 */}
+                  <div className='mt-auto'>
+                    {/* 图标 + 标签区域 */}
+                    <div className='flex items-center gap-3'>
+                      {getModelIcon(model)}
+                      <div className='flex-1'>
+                        {renderTags(model)}
+                      </div>
+                    </div>
+
+                    {/* 倍率信息（可选） */}
+                    {showRatio && (
+                      <div className='pt-3'>
+                        <div className='flex items-center space-x-1 mb-2'>
+                          <span className='text-xs font-medium text-gray-700'>
+                            {t('倍率信息')}
+                          </span>
+                          <Tooltip
+                            content={t('倍率是为了方便换算不同价格的模型')}
+                          >
+                            <IconHelpCircle
+                              className='text-blue-500 cursor-pointer'
+                              size='small'
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setModalImageUrl('/ratio.png');
+                                setIsModalOpenurl(true);
+                              }}
+                            />
+                          </Tooltip>
+                        </div>
+                        <div className='grid grid-cols-3 gap-2 text-xs text-gray-600'>
+                          <div>
+                            {t('模型')}:{' '}
+                            {model.quota_type === 0 ? model.model_ratio : t('无')}
+                          </div>
+                          <div>
+                            {t('补全')}:{' '}
+                            {model.quota_type === 0
+                              ? parseFloat(model.completion_ratio.toFixed(3))
+                              : t('无')}
+                          </div>
+                          <div>
+                            {t('分组')}: {priceData?.usedGroupRatio ?? '-'}
+                          </div>
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
-
-                {/* 模型描述 - 占据剩余空间 */}
-                <div className='flex-1 mb-4'>
-                  <p
-                    className='text-xs line-clamp-2 leading-relaxed'
-                    style={{ color: 'var(--semi-color-text-2)' }}
-                  >
-                    {getModelDescription(model)}
-                  </p>
-                </div>
-
-                {/* 底部区域 */}
-                <div className='mt-auto'>
-                  {/* 标签区域 */}
-                  {renderTags(model)}
-
-                  {/* 倍率信息（可选） */}
-                  {showRatio && (
-                    <div className='pt-3'>
-                      <div className='flex items-center space-x-1 mb-2'>
-                        <span className='text-xs font-medium text-gray-700'>
-                          {t('倍率信息')}
-                        </span>
-                        <Tooltip
-                          content={t('倍率是为了方便换算不同价格的模型')}
-                        >
-                          <IconHelpCircle
-                            className='text-blue-500 cursor-pointer'
-                            size='small'
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setModalImageUrl('/ratio.png');
-                              setIsModalOpenurl(true);
-                            }}
-                          />
-                        </Tooltip>
-                      </div>
-                      <div className='grid grid-cols-3 gap-2 text-xs text-gray-600'>
-                        <div>
-                          {t('模型')}:{' '}
-                          {model.quota_type === 0 ? model.model_ratio : t('无')}
-                        </div>
-                        <div>
-                          {t('补全')}:{' '}
-                          {model.quota_type === 0
-                            ? parseFloat(model.completion_ratio.toFixed(3))
-                            : t('无')}
-                        </div>
-                        <div>
-                          {t('分组')}: {priceData?.usedGroupRatio ?? '-'}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </Card>
+              </Card>
+              {index < paginatedModels.length - 1 && (
+                <Divider style={{ margin: 8 }} />
+              )}
+            </React.Fragment>
           );
         })}
       </div>

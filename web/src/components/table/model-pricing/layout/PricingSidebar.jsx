@@ -122,7 +122,7 @@ const PricingSidebar = ({
         t={t}
       />
 
-      <PricingGroups
+      {/* <PricingGroups
         filterGroup={filterGroup}
         setFilterGroup={handleGroupClick}
         usableGroup={categoryProps.usableGroup}
@@ -130,7 +130,7 @@ const PricingSidebar = ({
         models={groupCountModels}
         loading={loading}
         t={t}
-      />
+      /> */}
 
       <PricingQuotaTypes
         filterQuotaType={filterQuotaType}
@@ -140,14 +140,14 @@ const PricingSidebar = ({
         t={t}
       />
 
-      <PricingEndpointTypes
+      {/* <PricingEndpointTypes
         filterEndpointType={filterEndpointType}
         setFilterEndpointType={setFilterEndpointType}
         models={endpointTypeModels}
         allModels={categoryProps.models}
         loading={loading}
         t={t}
-      />
+      /> */}
     </div>
   );
 };

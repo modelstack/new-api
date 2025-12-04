@@ -57,8 +57,6 @@ const COMPONENT_STYLES = {
   },
   avatarContainer:
     'w-16 h-16 rounded-2xl bg-white/90 shadow-md backdrop-blur-sm flex items-center justify-center',
-  titleText: { color: 'white' },
-  descriptionText: { color: 'rgba(255,255,255,0.9)' },
 };
 
 const CONTENT_TEXTS = {
@@ -262,10 +260,6 @@ const PricingVendorIntro = memo(
     const createCoverStyle = useCallback(
       (primaryColor) => ({
         '--palette-primary-darkerChannel': primaryColor,
-        backgroundImage: `linear-gradient(0deg, rgba(var(--palette-primary-darkerChannel) / 80%), rgba(var(--palette-primary-darkerChannel) / 80%)), url('/cover-4.webp')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
       }),
       [],
     );
@@ -320,7 +314,8 @@ const PricingVendorIntro = memo(
     const renderHeaderCard = useCallback(
       ({ title, count, description, rightContent, primaryDarkerChannel }) => (
         <Card
-          className='!rounded-2xl shadow-sm border-0'
+          className='!rounded-2xl'
+          bordered={false}
           cover={
             <div
               className='relative h-full'
@@ -328,7 +323,7 @@ const PricingVendorIntro = memo(
             >
               <div className='relative z-10 h-full flex items-center justify-between p-4'>
                 <div className='flex-1 min-w-0 mr-4'>
-                  <div className='flex flex-row flex-wrap items-center gap-2 sm:gap-3 mb-2'>
+                  <div className='flex flex-row flex-wrap items-center gap-2 sm:gap-3'>
                     <h2
                       className='text-lg sm:text-xl font-bold truncate'
                       style={COMPONENT_STYLES.titleText}
@@ -344,17 +339,9 @@ const PricingVendorIntro = memo(
                       {t('共 {{count}} 个模型', { count })}
                     </Tag>
                   </div>
-                  <Paragraph
-                    className='text-xs sm:text-sm leading-relaxed !mb-0 cursor-pointer'
-                    style={COMPONENT_STYLES.descriptionText}
-                    ellipsis={{ rows: 2 }}
-                    onClick={() => handleOpenDescModal(description)}
-                  >
-                    {description}
-                  </Paragraph>
                 </div>
 
-                <div className='flex-shrink-0'>{rightContent}</div>
+                {/* <div className='flex-shrink-0'>{rightContent}</div> */}
               </div>
             </div>
           }
@@ -375,7 +362,7 @@ const PricingVendorIntro = memo(
 
     if (filterVendor === 'all') {
       const headerCard = renderHeaderCard({
-        title: t('全部供应商'),
+        title: t('模型'),
         count: currentModelCount,
         description: getVendorDescription('all'),
         rightContent: renderAllVendorsAvatar(),

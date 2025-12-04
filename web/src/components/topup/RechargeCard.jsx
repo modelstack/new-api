@@ -121,10 +121,6 @@ const RechargeCard = ({
               className='relative h-30'
               style={{
                 '--palette-primary-darkerChannel': '37 99 235',
-                backgroundImage: `linear-gradient(0deg, rgba(var(--palette-primary-darkerChannel) / 80%), rgba(var(--palette-primary-darkerChannel) / 80%)), url('/cover-4.webp')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
               }}
             >
               <div className='relative z-10 h-full flex flex-col justify-between p-4'>
@@ -376,7 +372,7 @@ const RechargeCard = ({
                                 fontWeight: 'normal',
                               }}
                             >
-                              (1 $ = {rate.toFixed(2)} {symbol})
+                              (1 ¥ = {rate.toFixed(2)} {symbol})
                             </span>
                           );
                         })()}

@@ -1,0 +1,34 @@
+/**
+ * src/styles/settings.scss
+ *
+ * Configures SASS variables and Vuetify overwrites
+ */
+
+// https://vuetifyjs.com/features/sass-variables/`
+@use 'vuetify/settings' with (
+  $body-font-family: 'Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  $border-radius-root: 8px,
+);
+
+// Custom styles
+:root {
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}
+
+// Smooth scrolling
+html {
+  scroll-behavior: smooth;
+}
+
+// Better focus styles
+*:focus-visible {
+  outline: 2px solid rgb(var(--v-theme-primary));
+  outline-offset: 2px;
+}
+
+// Tooltip styles
+.v-tooltip > .v-overlay__content {
+  background: rgba(33, 33, 33, 0.9) !important;
+  color: #fff !important;
+}

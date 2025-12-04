@@ -2,7 +2,7 @@
   <v-app>
     <!-- App Bar -->
     <v-app-bar color="surface" elevation="0" border="b">
-      <v-app-bar-nav-icon class="d-lg-none" @click="drawer = !drawer" />
+      <v-app-bar-nav-icon class="d-lg-none" @click="toggleDrawer" />
 
       <v-app-bar-title class="font-weight-bold">
         <router-link to="/" class="text-decoration-none" style="color: inherit;">
@@ -65,25 +65,6 @@
       </template>
     </v-app-bar>
 
-    <!-- Mobile Navigation Drawer -->
-    <v-navigation-drawer v-model="drawer" temporary class="d-lg-none">
-      <v-list nav>
-        <template v-if="!isConsolePage">
-          <v-list-item prepend-icon="mdi-home" title="首页" to="/" />
-          <v-list-item prepend-icon="mdi-cube-outline" title="模型广场" to="/models" />
-          <v-divider class="my-2" />
-        </template>
-        <template v-if="userStore.isLoggedIn">
-          <v-list-item prepend-icon="mdi-console" title="控制台" to="/console" />
-          <v-list-item prepend-icon="mdi-logout" title="退出登录" @click="handleLogout" class="text-error" />
-        </template>
-        <template v-else>
-          <v-list-item prepend-icon="mdi-login" title="登录" to="/login" />
-          <v-list-item prepend-icon="mdi-account-plus" title="注册" to="/register" />
-        </template>
-      </v-list>
-    </v-navigation-drawer>
-
     <!-- Main Content -->
     <v-main>
       <router-view />
@@ -121,6 +102,16 @@ const activeTab = computed(() => {
 
 const toggleTheme = () => {
   theme.global.name.value = isDark.value ? 'light' : 'dark'
+}
+
+// 切换 drawer
+const toggleDrawer = () => {
+  if (isConsolePage.value) {
+    // 在控制台页面，触发自定义事件通知 console.vue
+    window.dispatchEvent(new CustomEvent('toggle-console-drawer'))
+  } else {
+    drawer.value = !drawer.value
+  }
 }
 
 // Snackbar

@@ -33,7 +33,13 @@ router.beforeEach((to, from, next) => {
 
   // 已登录用户访问登录/注册页，跳转到控制台
   if (isLoggedIn && (to.path === '/login' || to.path === '/register')) {
-    next('/console')
+    next('/console/dashboard')
+    return
+  }
+
+  // 访问 /console 时重定向到 /console/dashboard
+  if (to.path === '/console') {
+    next('/console/dashboard')
     return
   }
 

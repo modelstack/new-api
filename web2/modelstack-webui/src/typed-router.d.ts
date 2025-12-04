@@ -19,7 +19,12 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
-    '/console': RouteRecordInfo<'/console', '/console', Record<never, never>, Record<never, never>>,
+    '/console': RouteRecordInfo<'/console', '/console', Record<never, never>, Record<never, never>, '/console/dashboard' | '/console/logs' | '/console/models' | '/console/settings' | '/console/tokens'>,
+    '/console/dashboard': RouteRecordInfo<'/console/dashboard', '/console/dashboard', Record<never, never>, Record<never, never>>,
+    '/console/logs': RouteRecordInfo<'/console/logs', '/console/logs', Record<never, never>, Record<never, never>>,
+    '/console/models': RouteRecordInfo<'/console/models', '/console/models', Record<never, never>, Record<never, never>>,
+    '/console/settings': RouteRecordInfo<'/console/settings', '/console/settings', Record<never, never>, Record<never, never>>,
+    '/console/tokens': RouteRecordInfo<'/console/tokens', '/console/tokens', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/models': RouteRecordInfo<'/models', '/models', Record<never, never>, Record<never, never>>,
     '/oauth/oidc': RouteRecordInfo<'/oauth/oidc', '/oauth/oidc', Record<never, never>, Record<never, never>>,
@@ -43,7 +48,27 @@ declare module 'vue-router/auto-routes' {
       views: never
     }
     'src/pages/console.vue': {
-      routes: '/console'
+      routes: '/console' | '/console/dashboard' | '/console/logs' | '/console/models' | '/console/settings' | '/console/tokens'
+      views: 'default'
+    }
+    'src/pages/console/dashboard.vue': {
+      routes: '/console/dashboard'
+      views: never
+    }
+    'src/pages/console/logs.vue': {
+      routes: '/console/logs'
+      views: never
+    }
+    'src/pages/console/models.vue': {
+      routes: '/console/models'
+      views: never
+    }
+    'src/pages/console/settings.vue': {
+      routes: '/console/settings'
+      views: never
+    }
+    'src/pages/console/tokens.vue': {
+      routes: '/console/tokens'
       views: never
     }
     'src/pages/login.vue': {

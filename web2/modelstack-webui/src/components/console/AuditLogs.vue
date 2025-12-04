@@ -48,17 +48,6 @@
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <v-text-field
-              v-model="filters.model_name"
-              prepend-inner-icon="mdi-cube-outline"
-              placeholder="模型名称"
-              variant="outlined"
-              density="compact"
-              hide-details
-              clearable
-            />
-          </v-col>
-          <v-col cols="12" sm="6" md="3">
             <v-select
               v-model="filters.type"
               :items="logTypeOptions"
@@ -68,6 +57,17 @@
               density="compact"
               hide-details
               clearable
+            />
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <v-select
+              v-model="filters.timeRange"
+              :items="timeRangeOptions"
+              prepend-inner-icon="mdi-clock-outline"
+              placeholder="时间范围"
+              variant="outlined"
+              density="compact"
+              hide-details
             />
           </v-col>
           <v-col cols="12" sm="6" md="3">
@@ -151,16 +151,6 @@
           </span>
         </template>
 
-        <!-- 流式列 -->
-        <template v-slot:item.is_stream="{ item }">
-          <v-icon
-            :color="item.is_stream ? 'success' : 'grey'"
-            size="small"
-          >
-            {{ item.is_stream ? 'mdi-check-circle' : 'mdi-close-circle' }}
-          </v-icon>
-        </template>
-
         <!-- 展开行内容 -->
         <template v-slot:expanded-row="{ columns, item }">
           <tr>
@@ -176,6 +166,19 @@
                   <div class="mb-3" v-if="item.ip">
                     <div class="text-body-2 text-medium-emphasis mb-1">IP 地址</div>
                     <span>{{ item.ip }}</span>
+                  </div>
+                  <div class="mb-3">
+                    <div class="text-body-2 text-medium-emphasis mb-1">流式</div>
+                    <v-chip
+                      :color="item.is_stream ? 'success' : 'grey'"
+                      size="small"
+                      variant="tonal"
+                    >
+                      <v-icon start size="14">
+                        {{ item.is_stream ? 'mdi-check-circle' : 'mdi-close-circle' }}
+                      </v-icon>
+                      {{ item.is_stream ? '是' : '否' }}
+                    </v-chip>
                   </div>
                 </v-col>
                 <v-col cols="12" md="6">
@@ -286,7 +289,17 @@ const filters = reactive({
   token_name: '',
   model_name: '',
   type: null as number | null,
+  timeRange: 'today' as string,
 })
+
+// 时间范围选项
+const timeRangeOptions = [
+  { title: '当天', value: 'today' },
+  { title: '最近一天', value: '1day' },
+  { title: '最近两天', value: '2days' },
+  { title: '最近一周', value: '1week' },
+  { title: '最近一个月', value: '1month' },
+]
 
 // 日志类型选项
 const logTypeOptions = [
@@ -299,14 +312,13 @@ const logTypeOptions = [
 
 // 表头配置
 const headers = [
-  { title: '时间', key: 'created_at', width: '160px' },
-  { title: '模型', key: 'model_name', width: '150px' },
+  { title: '时间', key: 'created_at', width: '130px' },
+  { title: '模型', key: 'model_name', width: '140px' },
   { title: '令牌', key: 'token_name', width: '140px' },
   { title: '类型', key: 'type', width: '80px' },
   { title: 'Tokens', key: 'tokens', width: '140px', sortable: false },
   { title: '耗时', key: 'use_time', width: '80px' },
   { title: '消耗', key: 'quota', width: '100px' },
-  { title: '流式', key: 'is_stream', width: '60px' },
   { title: '', key: 'data-table-expand', width: '50px' },
 ]
 
@@ -333,6 +345,35 @@ function getCurrentEndTimestamp(): number {
   return Math.floor(Date.now() / 1000) + 3600
 }
 
+// 根据时间范围获取开始时间戳
+function getStartTimestampByRange(): number {
+  const now = new Date()
+  const currentTimestamp = Math.floor(now.getTime() / 1000)
+  
+  switch (filters.timeRange) {
+    case 'today':
+      // 当天：从今天0点开始
+      now.setHours(0, 0, 0, 0)
+      return Math.floor(now.getTime() / 1000)
+    case '1day':
+      // 最近一天：24小时前
+      return currentTimestamp - 24 * 60 * 60
+    case '2days':
+      // 最近两天：48小时前
+      return currentTimestamp - 2 * 24 * 60 * 60
+    case '1week':
+      // 最近一周：7天前
+      return currentTimestamp - 7 * 24 * 60 * 60
+    case '1month':
+      // 最近一个月：30天前
+      return currentTimestamp - 30 * 24 * 60 * 60
+    default:
+      // 默认当天
+      now.setHours(0, 0, 0, 0)
+      return Math.floor(now.getTime() / 1000)
+  }
+}
+
 // 加载日志数据
 async function loadLogs(options?: { page: number; itemsPerPage: number }) {
   loading.value = true
@@ -341,7 +382,7 @@ async function loadLogs(options?: { page: number; itemsPerPage: number }) {
     const currentPage = options?.page || page.value
     const pageSize = options?.itemsPerPage || itemsPerPage.value
     
-    const startTimestamp = getTodayStartTimestamp()
+    const startTimestamp = getStartTimestampByRange()
     const endTimestamp = getCurrentEndTimestamp()
     
     let url = `/api/log/self/?p=${currentPage}&page_size=${pageSize}&type=${filters.type || 0}`
@@ -372,7 +413,7 @@ async function loadLogs(options?: { page: number; itemsPerPage: number }) {
 // 加载统计数据
 async function loadStat() {
   try {
-    const startTimestamp = getTodayStartTimestamp()
+    const startTimestamp = getStartTimestampByRange()
     const endTimestamp = getCurrentEndTimestamp()
     
     let url = `/api/log/self/stat?type=${filters.type || 0}`

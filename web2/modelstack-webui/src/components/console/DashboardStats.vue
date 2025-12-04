@@ -23,7 +23,7 @@
     <v-row class="mb-4">
       <!-- 当前余额 -->
       <v-col cols="12" sm="6" md="4">
-        <v-card variant="flat" class="stats-card bg-blue-lighten-5">
+        <v-card variant="flat" class="stats-card stats-card-blue">
           <v-card-text class="pa-5">
             <div class="d-flex align-center justify-space-between">
               <div class="d-flex align-center">
@@ -58,7 +58,7 @@
 
       <!-- 已用额度 -->
       <v-col cols="12" sm="6" md="4">
-        <v-card variant="flat" class="stats-card bg-purple-lighten-5">
+        <v-card variant="flat" class="stats-card stats-card-purple">
           <v-card-text class="pa-5">
             <div class="d-flex align-center">
               <v-avatar color="purple" size="56" class="mr-4">
@@ -82,7 +82,7 @@
 
       <!-- 今日消耗 -->
       <v-col cols="12" sm="6" md="4">
-        <v-card variant="flat" class="stats-card bg-green-lighten-5">
+        <v-card variant="flat" class="stats-card stats-card-green">
           <v-card-text class="pa-5">
             <div class="d-flex align-center">
               <v-avatar color="green" size="56" class="mr-4">
@@ -577,6 +577,18 @@ onUnmounted(() => {
   border-radius: 16px !important;
   transition: transform 0.2s, box-shadow 0.2s;
   padding: 4px 0;
+}
+
+.stats-card-blue {
+  background: rgba(33, 150, 243, 0.1) !important;
+}
+
+.stats-card-purple {
+  background: rgba(156, 39, 176, 0.1) !important;
+}
+
+.stats-card-green {
+  background: rgba(76, 175, 80, 0.1) !important;
 }
 
 .chart-container {

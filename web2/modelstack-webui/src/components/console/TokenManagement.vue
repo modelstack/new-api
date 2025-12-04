@@ -37,16 +37,18 @@
 
                 <!-- 令牌 Key 列 -->
                 <template v-slot:item.key="{ item }">
-                    <div class="d-flex align-center">
-                        <code class="text-body-2 bg-grey-lighten-4 px-2 py-1 rounded">
-              {{ showKey[item.id] ? 'sk-' + item.key : maskKey(item.key) }}
-            </code>
-                        <v-btn icon variant="text" size="x-small" class="ml-1" @click="toggleKeyVisibility(item.id)">
-                            <v-icon size="16">{{ showKey[item.id] ? 'mdi-eye-off' : 'mdi-eye' }}</v-icon>
-                        </v-btn>
-                        <v-btn icon variant="text" size="x-small" @click="copyKey(item.key)">
-                            <v-icon size="16">mdi-content-copy</v-icon>
-                        </v-btn>
+                    <div class="d-flex align-center pt-2 pb-2">
+                        <code class="text-body-2 token-key-bg px-2 py-1 rounded token-key-text">
+                            {{ showKey[item.id] ? 'sk-' + item.key : maskKey(item.key) }}
+                        </code>
+                        <div class="d-flex flex-shrink-0 ml-1">
+                            <v-btn icon variant="text" size="x-small" @click="toggleKeyVisibility(item.id)">
+                                <v-icon size="16">{{ showKey[item.id] ? 'mdi-eye-off' : 'mdi-eye' }}</v-icon>
+                            </v-btn>
+                            <v-btn icon variant="text" size="x-small" @click="copyKey(item.key)">
+                                <v-icon size="16">mdi-content-copy</v-icon>
+                            </v-btn>
+                        </div>
                     </div>
                 </template>
 
@@ -477,5 +479,15 @@ onMounted(() => {
 code {
     font-size: 12px;
     font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.token-key-bg {
+    background: rgba(128, 128, 128, 0.15);
+}
+
+.token-key-text {
+    word-break: break-all;
+    max-width: 200px;
+    display: inline-block;
 }
 </style>

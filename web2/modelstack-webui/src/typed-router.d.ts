@@ -19,12 +19,13 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
-    '/console': RouteRecordInfo<'/console', '/console', Record<never, never>, Record<never, never>, '/console/dashboard' | '/console/logs' | '/console/models' | '/console/settings' | '/console/tokens'>,
+    '/console': RouteRecordInfo<'/console', '/console', Record<never, never>, Record<never, never>, '/console/dashboard' | '/console/logs' | '/console/models' | '/console/settings' | '/console/tokens' | '/console/topup'>,
     '/console/dashboard': RouteRecordInfo<'/console/dashboard', '/console/dashboard', Record<never, never>, Record<never, never>>,
     '/console/logs': RouteRecordInfo<'/console/logs', '/console/logs', Record<never, never>, Record<never, never>>,
     '/console/models': RouteRecordInfo<'/console/models', '/console/models', Record<never, never>, Record<never, never>>,
     '/console/settings': RouteRecordInfo<'/console/settings', '/console/settings', Record<never, never>, Record<never, never>>,
     '/console/tokens': RouteRecordInfo<'/console/tokens', '/console/tokens', Record<never, never>, Record<never, never>>,
+    '/console/topup': RouteRecordInfo<'/console/topup', '/console/topup', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/models': RouteRecordInfo<'/models', '/models', Record<never, never>, Record<never, never>>,
     '/oauth/oidc': RouteRecordInfo<'/oauth/oidc', '/oauth/oidc', Record<never, never>, Record<never, never>>,
@@ -48,7 +49,7 @@ declare module 'vue-router/auto-routes' {
       views: never
     }
     'src/pages/console.vue': {
-      routes: '/console' | '/console/dashboard' | '/console/logs' | '/console/models' | '/console/settings' | '/console/tokens'
+      routes: '/console' | '/console/dashboard' | '/console/logs' | '/console/models' | '/console/settings' | '/console/tokens' | '/console/topup'
       views: 'default'
     }
     'src/pages/console/dashboard.vue': {
@@ -69,6 +70,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/console/tokens.vue': {
       routes: '/console/tokens'
+      views: never
+    }
+    'src/pages/console/topup.vue': {
+      routes: '/console/topup'
       views: never
     }
     'src/pages/login.vue': {

@@ -20,5 +20,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TokenManagement: typeof import('./components/console/TokenManagement.vue')['default']
+    TopupPage: typeof import('./components/console/TopupPage.vue')['default']
   }
 }

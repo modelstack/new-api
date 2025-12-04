@@ -6,7 +6,7 @@
 
       <v-app-bar-title class="font-weight-bold">
         <router-link to="/" class="text-decoration-none" style="color: inherit;">
-          <span class="text-primary">Model</span>Stack
+          ModelStack
         </router-link>
       </v-app-bar-title>
 
@@ -148,5 +148,10 @@ onMounted(async () => {
 <style>
 .v-app-bar-title {
   flex: none !important;
+}
+
+/* 全局应用 Outfit 字体 */
+.v-application {
+  font-family: 'Outfit', sans-serif !important;
 }
 </style>

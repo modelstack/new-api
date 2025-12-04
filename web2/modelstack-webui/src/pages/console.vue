@@ -8,7 +8,7 @@
             width="240" 
             class="border-e"
         >
-            <v-list nav density="compact" class="pa-2">
+            <v-list nav density="compact" class="pa-2 d-flex flex-column fill-height">
                 <v-list-subheader class="text-caption font-weight-bold">
                     控制台
                 </v-list-subheader>
@@ -17,15 +17,19 @@
                     :title="item.title" :value="item.value" :to="item.to"
                     rounded="lg" class="mb-1" @click="mobile && (drawer = false)" />
 
-                <v-divider class="my-2" />
+                <v-spacer />
 
-                <!-- 用户信息 -->
-                <v-list-item prepend-icon="mdi-account-circle" :title="userStore.displayName"
-                    :subtitle="userStore.username" />
+                <div>
+                    <v-divider class="my-2" />
 
-                <!-- 退出登录 -->
-                <v-list-item prepend-icon="mdi-logout" title="退出登录" @click="handleLogout" rounded="lg"
-                    class="text-error" />
+                    <!-- 用户信息 -->
+                    <v-list-item prepend-icon="mdi-account-circle" :title="userStore.displayName"
+                        :subtitle="userStore.username" />
+
+                    <!-- 退出登录 -->
+                    <v-list-item prepend-icon="mdi-logout" title="退出登录" @click="handleLogout" rounded="lg"
+                        class="text-error" />
+                </div>
             </v-list>
         </v-navigation-drawer>
 
@@ -89,6 +93,7 @@ onUnmounted(() => {
 
 const menuItems = [
     { title: '看板', value: 'dashboard', icon: 'mdi-view-dashboard', to: '/console/dashboard' },
+    { title: '充值', value: 'topup', icon: 'mdi-wallet-plus', to: '/console/topup' },
     { title: '令牌', value: 'tokens', icon: 'mdi-key-variant', to: '/console/tokens' },
     { title: '模型', value: 'models', icon: 'mdi-cube-outline', to: '/console/models' },
     { title: '审计', value: 'logs', icon: 'mdi-history', to: '/console/logs' },

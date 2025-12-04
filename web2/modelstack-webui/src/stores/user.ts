@@ -17,6 +17,9 @@ export interface User {
   request_count?: number
   group?: string
   aff_code?: string
+  aff_count?: number
+  aff_quota?: number
+  aff_history_quota?: number
 }
 
 export const useUserStore = defineStore('user', () => {

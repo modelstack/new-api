@@ -19,6 +19,10 @@
           <v-icon start>mdi-cube-outline</v-icon>
           模型广场
         </v-tab>
+        <v-tab value="models" href="https://docs.modelstack.app" target="_blank">
+          <v-icon start>mdi-open-in-new</v-icon>
+          文档
+        </v-tab>
       </v-tabs>
 
       <v-spacer />

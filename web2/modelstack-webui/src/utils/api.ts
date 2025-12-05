@@ -110,11 +110,6 @@ export function getSystemName(): string {
   return localStorage.getItem('system_name') || 'New API'
 }
 
-// 获取 Logo
-export function getLogo(): string {
-  return localStorage.getItem('logo') || '/logo.png'
-}
-
 // 保存用户数据
 export function setUserData(user: any): void {
   localStorage.setItem('user', JSON.stringify(user))

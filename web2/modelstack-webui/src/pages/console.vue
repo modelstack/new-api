@@ -1,21 +1,14 @@
 <template>
     <div class="console-layout fill-height">
         <!-- 左侧菜单 Sidebar - 响应式 -->
-        <v-navigation-drawer 
-            v-model="drawer" 
-            :permanent="!mobile" 
-            :temporary="mobile"
-            width="240" 
-            class="border-e"
-        >
+        <v-navigation-drawer v-model="drawer" :permanent="!mobile" :temporary="mobile" width="240" class="border-e">
             <v-list nav density="compact" class="pa-2 d-flex flex-column fill-height">
                 <v-list-subheader class="text-caption font-weight-bold">
                     控制台
                 </v-list-subheader>
 
-                <v-list-item v-for="item in menuItems" :key="item.value" :prepend-icon="item.icon"
-                    :title="item.title" :value="item.value" :to="item.to"
-                    rounded="lg" class="mb-1" @click="mobile && (drawer = false)" />
+                <v-list-item v-for="item in menuItems" :key="item.value" :prepend-icon="item.icon" :title="item.title"
+                    :value="item.value" :to="item.to" rounded="lg" class="mb-1" @click="mobile && (drawer = false)" />
 
                 <v-spacer />
 
@@ -35,10 +28,13 @@
 
         <!-- 右侧内容区 -->
         <div class="console-content fill-height overflow-auto">
-            <v-container fluid class="pa-4 pa-md-6">
-                <!-- 使用 router-view 渲染子路由 -->
-                <router-view />
-            </v-container>
+            <div class="d-flex">
+                <v-container fluid class="pa-4 pa-md-6" style="max-width: 1920px;">
+                    <!-- 使用 router-view 渲染子路由 -->
+                    <router-view />
+                </v-container>
+            </div>
+
         </div>
 
         <!-- 退出确认对话框 -->

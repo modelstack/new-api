@@ -1,18 +1,11 @@
 <template>
-  <v-container fluid class="fill-height bg-grey-lighten-4">
+  <v-container fluid class="fill-height bg-surface-variant">
     <v-row justify="center" align="center" class="fill-height">
-      <v-col cols="12" sm="8" md="5" lg="4" xl="3">
-        <!-- Logo 和系统名称 -->
-        <div class="text-center mb-6">
-          <v-avatar size="64" class="mb-2">
-            <v-img :src="logo" alt="Logo" />
-          </v-avatar>
-          <h2 class="text-h5 font-weight-bold">{{ systemName }}</h2>
-        </div>
-
-        <v-card class="pa-6" rounded="xl" elevation="2">
-          <v-card-title class="text-center text-h5 font-weight-bold pb-4">
-            注册
+      <v-col cols="12" sm="8" md="5" lg="3" xl="3">
+        <v-card class="pa-6" rounded="xl" elevation="0">
+          <v-card-title class="text-h5 font-weight-bold pb-6">
+            <v-img src="@/assets/logo.png" alt="Logo" width="64"/>
+            <h2 class="text-h5 font-weight-bold ml-3 mt-2">创建账户</h2>
           </v-card-title>
 
           <v-card-text>
@@ -51,7 +44,7 @@
             </div>
 
             <!-- 邮箱注册表单 -->
-            <v-form v-if="showEmailRegister || !hasOAuthOptions" ref="registerForm" @submit.prevent="handleSubmit">
+            <v-form v-if="showEmailRegister || !hasOAuthOptions" ref="registerForm" @submit.prevent="handleSubmit" class="ml-3 mr-3">
               <v-text-field
                 v-model="formData.username"
                 label="用户名"
@@ -150,8 +143,8 @@
                 block
                 color="primary"
                 size="large"
-                rounded="pill"
                 type="submit"
+                elevation="0"
                 :loading="registerLoading"
                 :disabled="(hasUserAgreement || hasPrivacyPolicy) && !agreedToTerms"
               >
@@ -199,7 +192,7 @@
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { API, getSystemStatus, getSystemName, getLogo, onOIDCClicked } from '@/utils/api'
+import { API, getSystemStatus, getSystemName, onOIDCClicked } from '@/utils/api'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -238,7 +231,6 @@ let turnstileWidgetId: string | null = null
 // 系统状态
 const status = ref(getSystemStatus())
 const systemName = ref(getSystemName())
-const logo = ref(getLogo())
 const showEmailVerification = computed(() => status.value.email_verification ?? false)
 
 // 用户协议
@@ -453,6 +445,6 @@ onUnmounted(() => {
 
 <style scoped>
 .fill-height {
-  min-height: 100vh;
+  min-height: 100%;
 }
 </style>

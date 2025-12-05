@@ -1,22 +1,15 @@
 <template>
-  <v-container fluid class="fill-height bg-grey-lighten-4">
+  <v-container fluid class="fill-height bg-surface-variant">
     <v-row justify="center" align="center" class="fill-height">
       <v-col cols="12" sm="8" md="5" lg="4" xl="3">
-        <!-- Logo 和系统名称 -->
-        <div class="text-center mb-6">
-          <v-avatar size="64" class="mb-2">
-            <v-img :src="logo" alt="Logo" />
-          </v-avatar>
-          <h2 class="text-h5 font-weight-bold">{{ systemName }}</h2>
-        </div>
-
-        <v-card class="pa-6" rounded="xl" elevation="2">
-          <v-card-title class="text-center text-h5 font-weight-bold pb-4">
-            重置密码
+        <v-card class="pa-6" rounded="xl" elevation="0">
+          <v-card-title class="text-h5 font-weight-bold pb-6">
+            <v-img src="@/assets/logo.png" alt="Logo" width="64"/>
+            <h2 class="text-h5 font-weight-bold ml-3 mt-2">重置密码</h2>
           </v-card-title>
 
           <v-card-text>
-            <v-form ref="resetForm" @submit.prevent="handleSubmit">
+            <v-form ref="resetForm" @submit.prevent="handleSubmit" class="ml-3 mr-3">
               <v-text-field
                 v-model="email"
                 label="邮箱地址"
@@ -85,8 +78,8 @@
                 block
                 color="primary"
                 size="large"
-                rounded="pill"
                 type="submit"
+                elevation="0"
                 :loading="resetting"
               >
                 重置密码
@@ -113,7 +106,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { API, getSystemStatus, getSystemName, getLogo } from '@/utils/api'
+import { API, getSystemStatus } from '@/utils/api'
 
 const router = useRouter()
 
@@ -140,10 +133,6 @@ const turnstileSiteKey = ref('')
 const turnstileToken = ref('')
 const turnstileContainer = ref<HTMLElement | null>(null)
 let turnstileWidgetId: string | null = null
-
-// 系统信息
-const systemName = ref(getSystemName())
-const logo = ref(getLogo())
 
 // Snackbar
 const snackbar = ref({
@@ -306,6 +295,6 @@ onUnmounted(() => {
 
 <style scoped>
 .fill-height {
-  min-height: 100vh;
+  min-height: 100%;
 }
 </style>

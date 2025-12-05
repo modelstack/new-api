@@ -61,7 +61,7 @@
                                 </v-text-field>
                                 <div class="mt-2 text-body-2">
                                     <span class="text-medium-emphasis">实付金额：</span>
-                                    <v-skeleton-loader v-if="amountLoading" type="text" width="80"
+                                    <v-skeleton-loader v-if="amountLoading" type="text" width="20" height="10"
                                         class="d-inline-block" />
                                     <span v-else class="text-error font-weight-medium">{{ actualAmount }} 元</span>
                                 </div>

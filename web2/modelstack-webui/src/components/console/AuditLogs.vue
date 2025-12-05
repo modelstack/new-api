@@ -525,7 +525,7 @@ function getInputPrice(item: LogItem): string {
   // 基础价格: $0.002/1K tokens = $2/M tokens
   const basePrice = 2
   const price = basePrice * modelRatio * groupRatio
-  return `$${price.toFixed(6)}`
+  return `✦${price.toFixed(6)}`
 }
 
 // 获取输出单价 (每百万 tokens)
@@ -537,7 +537,7 @@ function getOutputPrice(item: LogItem): string {
   // 基础价格: $0.002/1K tokens = $2/M tokens
   const basePrice = 2
   const price = basePrice * modelRatio * completionRatio * groupRatio
-  return `$${price.toFixed(6)}`
+  return `✦${price.toFixed(6)}`
 }
 
 // 获取缓存单价 (每百万 tokens)
@@ -549,7 +549,7 @@ function getCachePrice(item: LogItem): string {
   // 基础价格: $0.002/1K tokens = $2/M tokens
   const basePrice = 2
   const price = basePrice * modelRatio * cacheRatio * groupRatio
-  return `$${price.toFixed(6)}`
+  return `✦${price.toFixed(6)}`
 }
 
 // 计算输入费用 (返回 quota 单位)

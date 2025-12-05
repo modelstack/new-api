@@ -243,7 +243,7 @@ function getModelColor(model: string): string {
 
 // 格式化额度
 function formatQuota(quota: number): string {
-  if (quota === undefined || quota === null) return '$0.00'
+  if (quota === undefined || quota === null) return '✦0.00'
   
   // 假设 quota 是以 500000 = $1 的单位存储
   const quotaPerDollar = 500000

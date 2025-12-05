@@ -575,11 +575,11 @@ function formatQuota(quota: number): string {
   // 假设 quota 单位是 1/500000 美元
   const dollars = quota / 500000
   if (dollars >= 1) {
-    return '$' + dollars.toFixed(2)
+    return '✦' + dollars.toFixed(2)
   } else if (dollars >= 0.01) {
-    return '$' + dollars.toFixed(4)
+    return '✦' + dollars.toFixed(4)
   } else {
-    return '$' + dollars.toFixed(6)
+    return '✦' + dollars.toFixed(6)
   }
 }
 

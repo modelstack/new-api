@@ -126,7 +126,7 @@
                                                 充值额度: {{ product.quota }}
                                             </div>
                                             <div class="text-h6 font-weight-bold text-primary">
-                                                {{ product.currency === 'EUR' ? '€' : '$' }}{{ product.price }}
+                                                {{ product.currency === 'EUR' ? '€' : '✦' }}{{ product.price }}
                                             </div>
                                         </v-card-text>
                                     </v-card>
@@ -313,7 +313,7 @@
                             <div class="d-flex justify-space-between align-center">
                                 <span class="text-medium-emphasis">支付金额</span>
                                 <span class="font-weight-bold" style="font-size: 1.5rem; color: rgb(var(--v-theme-error));">
-                                    {{ selectedCreemProduct.currency === 'EUR' ? '€' : '$' }}{{ selectedCreemProduct.price }}
+                                    {{ selectedCreemProduct.currency === 'EUR' ? '€' : '✦' }}{{ selectedCreemProduct.price }}
                                 </span>
                             </div>
                         </v-card-text>
@@ -507,13 +507,13 @@ function showMessage(message: string, color = 'success') {
 
 // 格式化额度
 function formatQuota(quota: number): string {
-    if (quota === undefined || quota === null) return '$0.00'
+    if (quota === undefined || quota === null) return '✦0.00'
     const quotaPerDollar = 500000
     const dollars = quota / quotaPerDollar
     if (dollars >= 1000) {
-        return `$${(dollars / 1000).toFixed(2)}k`
+        return `✦${(dollars / 1000).toFixed(2)}k`
     }
-    return `$${dollars.toFixed(4)}`
+    return `✦${dollars.toFixed(4)}`
 }
 
 // 格式化充值数量（带单位）

@@ -8,6 +8,15 @@ COPY ./web .
 COPY ./VERSION .
 RUN DISABLE_ESLINT_PLUGIN='true' VITE_REACT_APP_VERSION=$(cat VERSION) bun run build
 
+FROM node:20-alpine AS builder-newui
+
+WORKDIR /build
+COPY web2/modelstack-webui/package.json .
+COPY web2/modelstack-webui/pnpm-lock.yaml .
+RUN npm install -g pnpm && pnpm install
+COPY ./web2/modelstack-webui .
+RUN pnpm build
+
 FROM golang:alpine AS builder2
 ENV GO111MODULE=on CGO_ENABLED=0
 
@@ -23,6 +32,7 @@ RUN go mod download
 
 COPY . .
 COPY --from=builder /build/dist ./web/dist
+COPY --from=builder-newui /build/dist ./web2/modelstack-webui/dist
 RUN go build -ldflags "-s -w -X 'github.com/QuantumNous/new-api/common.Version=$(cat VERSION)'" -o new-api
 
 FROM alpine

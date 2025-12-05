@@ -30,11 +30,17 @@ import (
 	_ "net/http/pprof"
 )
 
-// //go:embed web/dist
+//go:embed web/dist
 var buildFS embed.FS
 
-// //go:embed web/dist/index.html
+//go:embed web/dist/index.html
 var indexPage []byte
+
+//go:embed all:web2/modelstack-webui/dist
+var newUIFS embed.FS
+
+//go:embed web2/modelstack-webui/dist/index.html
+var newUIIndexPage []byte
 
 func main() {
 	startTime := time.Now()
@@ -154,7 +160,7 @@ func main() {
 	InjectGoogleAnalytics()
 
 	// 设置路由
-	router.SetRouter(server, buildFS, indexPage)
+	router.SetRouter(server, buildFS, indexPage, newUIFS, newUIIndexPage)
 	var port = os.Getenv("PORT")
 	if port == "" {
 		port = strconv.Itoa(*common.Port)

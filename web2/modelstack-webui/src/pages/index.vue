@@ -138,6 +138,24 @@ completion = client.chat.completions.create(
         </div>
       </v-sheet>
     </v-container>
+
+    <!-- Footer -->
+    <v-footer class="site-footer py-6 text-center">
+      <v-container>
+        <p class="text-body-2 text-medium-emphasis mb-0">
+          本站基于
+          <a 
+            href="https://github.com/QuantumNous/new-api" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="footer-link"
+          >
+            NewAPI
+          </a>
+          开发
+        </p>
+      </v-container>
+    </v-footer>
   </v-container>
 </template>
 
@@ -338,5 +356,22 @@ const features = ref([
 
 .cta-button {
   color: #7c4dff !important;
+}
+
+/* Footer */
+.site-footer {
+  background: transparent;
+}
+
+.footer-link {
+  color: rgb(var(--v-theme-primary));
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.footer-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
 </style>

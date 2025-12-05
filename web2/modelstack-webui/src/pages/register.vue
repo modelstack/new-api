@@ -11,6 +11,21 @@
           <v-card-text>
             <!-- OAuth 注册选项 -->
             <div v-if="!showEmailRegister && hasOAuthOptions" class="mb-4">
+              <!-- GitHub 注册 -->
+              <v-btn
+                v-if="status.github_oauth"
+                block
+                variant="outlined"
+                size="large"
+                class="mb-3"
+                rounded="pill"
+                :loading="githubLoading"
+                @click="handleGitHubClick"
+              >
+                <v-icon start>mdi-github</v-icon>
+                使用 GitHub 继续
+              </v-btn>
+
               <!-- OIDC 注册 -->
               <v-btn
                 v-if="status.oidc_enabled"
@@ -192,7 +207,7 @@
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { API, getSystemStatus, getSystemName, onOIDCClicked } from '@/utils/api'
+import { API, getSystemStatus, getSystemName, onOIDCClicked, onGitHubOAuthClicked } from '@/utils/api'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -214,6 +229,7 @@ const agreedToTerms = ref(false)
 // 加载状态
 const registerLoading = ref(false)
 const oidcLoading = ref(false)
+const githubLoading = ref(false)
 const verificationCodeLoading = ref(false)
 
 // 验证码倒计时
@@ -238,7 +254,7 @@ const hasUserAgreement = computed(() => status.value.user_agreement_enabled || f
 const hasPrivacyPolicy = computed(() => status.value.privacy_policy_enabled || false)
 
 // 是否有 OAuth 选项
-const hasOAuthOptions = computed(() => status.value.oidc_enabled)
+const hasOAuthOptions = computed(() => status.value.oidc_enabled || status.value.github_oauth)
 
 // Snackbar
 const snackbar = ref({
@@ -391,6 +407,23 @@ async function handleSubmit() {
     showMessage(error.response?.data?.message || '注册失败，请重试')
   } finally {
     registerLoading.value = false
+  }
+}
+
+// GitHub 注册（跳转到 GitHub）
+async function handleGitHubClick() {
+  if ((hasUserAgreement.value || hasPrivacyPolicy.value) && !agreedToTerms.value) {
+    showMessage('请先阅读并同意用户协议和隐私政策', 'warning')
+    return
+  }
+
+  githubLoading.value = true
+  try {
+    await onGitHubOAuthClicked(status.value.github_client_id!)
+  } finally {
+    setTimeout(() => {
+      githubLoading.value = false
+    }, 3000)
   }
 }
 

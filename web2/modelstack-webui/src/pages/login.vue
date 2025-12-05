@@ -165,7 +165,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { API, updateAPI, getSystemStatus, setUserData, onOIDCClicked, onGitHubOAuthClicked } from '@/utils/api'
@@ -224,6 +224,12 @@ function showMessage(text: string, color = 'error') {
 function initTurnstile() {
   if (!turnstileEnabled.value || !turnstileContainer.value) return
   
+  // 如果已经初始化过，先清理
+  if (turnstileWidgetId) {
+    cleanupTurnstile()
+    turnstileWidgetId = null
+  }
+  
   // @ts-ignore
   if (window.turnstile) {
     // @ts-ignore
@@ -233,6 +239,9 @@ function initTurnstile() {
         turnstileToken.value = token
       }
     })
+  } else {
+    // 脚本尚未加载，稍后重试
+    setTimeout(initTurnstile, 500)
   }
 }
 
@@ -342,8 +351,13 @@ onMounted(() => {
     turnstileEnabled.value = true
     turnstileSiteKey.value = savedStatus.turnstile_site_key || ''
     
-    // 等待 Turnstile 脚本加载
-    setTimeout(initTurnstile, 500)
+    // 如果没有 OAuth 选项或已经显示邮箱登录，直接初始化
+    // 否则等待 showEmailLogin 变为 true 时再初始化
+    if (!hasOAuthOptions.value || showEmailLogin.value) {
+      nextTick(() => {
+        setTimeout(initTurnstile, 500)
+      })
+    }
   }
 
   // 检查是否登录过期
@@ -354,6 +368,21 @@ onMounted(() => {
   // 如果已登录，跳转到控制台
   if (userStore.isLoggedIn) {
     router.replace('/console')
+  }
+})
+
+// 监听 showEmailLogin 变化，当切换到邮箱登录时初始化 Turnstile
+watch(showEmailLogin, (newVal) => {
+  if (newVal && turnstileEnabled.value) {
+    // 等待 DOM 更新后再初始化
+    nextTick(() => {
+      setTimeout(initTurnstile, 100)
+    })
+  } else if (!newVal && turnstileWidgetId) {
+    // 切换回 OAuth 登录时清理 Turnstile
+    cleanupTurnstile()
+    turnstileWidgetId = null
+    turnstileToken.value = ''
   }
 })
 

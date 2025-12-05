@@ -309,7 +309,7 @@ async function handleSubmit() {
 }
 
 // OIDC 登录
-function handleOIDCClick() {
+async function handleOIDCClick() {
   if ((hasUserAgreement.value || hasPrivacyPolicy.value) && !agreedToTerms.value) {
     showMessage('请先阅读并同意用户协议和隐私政策', 'warning')
     return
@@ -317,7 +317,7 @@ function handleOIDCClick() {
 
   oidcLoading.value = true
   try {
-    onOIDCClicked(status.value.oidc_authorization_endpoint!, status.value.oidc_client_id!)
+    await onOIDCClicked(status.value.oidc_authorization_endpoint!, status.value.oidc_client_id!)
   } finally {
     setTimeout(() => {
       oidcLoading.value = false

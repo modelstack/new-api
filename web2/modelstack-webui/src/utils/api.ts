@@ -137,10 +137,11 @@ export async function getOAuthState(): Promise<string> {
 }
 
 // OIDC 登录跳转
-export function onOIDCClicked(authorizationEndpoint: string, clientId: string): void {
+export async function onOIDCClicked(authorizationEndpoint: string, clientId: string): Promise<void> {
+  const state = await getOAuthState()
+  if (!state) return
+  
   const redirectUri = `${window.location.origin}/oauth/oidc`
-  const state = Math.random().toString(36).substring(2)
-  localStorage.setItem('oidc_state', state)
   
   const params = new URLSearchParams({
     response_type: 'code',

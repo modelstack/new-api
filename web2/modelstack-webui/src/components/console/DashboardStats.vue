@@ -440,7 +440,7 @@ function updateChart() {
   // 如果数据不够24条，向前补齐
   const targetCount = 24
   if (sortedTimes.length < targetCount && sortedTimes.length > 0) {
-    const minTime = sortedTimes[0]
+    const minTime = sortedTimes[0]!
     const hourInSeconds = 60 * 60
     const missingCount = targetCount - sortedTimes.length
     

@@ -1,5 +1,8 @@
 <template>
   <v-container fluid class="pa-0">
+    <!-- Notice Modal -->
+    <NoticeModal v-model="showNoticeModal" :announcements="systemAnnouncements" />
+
     <!-- Hero Section -->
     <v-sheet class="hero-section d-flex align-center position-relative overflow-hidden" min-height="85vh">
        <!-- Background effect -->
@@ -139,10 +142,47 @@ completion = client.chat.completions.create(
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useTheme } from 'vuetify'
+import NoticeModal from '@/components/NoticeModal.vue'
+import { API } from '@/utils/api'
 
 const theme = useTheme()
+
+// Notice Modal
+const showNoticeModal = ref(false)
+const systemAnnouncements = ref<any[]>([])
+
+// 检查今日是否已关闭公告
+const checkTodayNotice = () => {
+  const closedDate = localStorage.getItem('notice_close_date')
+  const today = new Date().toDateString()
+  return closedDate !== today
+}
+
+// 获取系统状态和公告
+const fetchSystemStatus = async () => {
+  try {
+    const res = await API.get('/api/status')
+    if (res.data?.data?.announcements) {
+      systemAnnouncements.value = res.data.data.announcements
+    }
+  } catch {
+    // ignore
+  }
+}
+
+// 自动显示公告
+onMounted(async () => {
+  await fetchSystemStatus()
+  // 如果今日未关闭且有公告，自动显示
+  if (checkTodayNotice()) {
+    // 延迟一下显示，让页面先渲染
+    setTimeout(() => {
+      showNoticeModal.value = true
+    }, 800)
+  }
+})
 
 const features = ref([
   {

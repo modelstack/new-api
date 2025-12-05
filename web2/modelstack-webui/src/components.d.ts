@@ -14,6 +14,7 @@ declare module 'vue' {
     AuditLogs: typeof import('./components/console/AuditLogs.vue')['default']
     DashboardStats: typeof import('./components/console/DashboardStats.vue')['default']
     ModelList: typeof import('./components/console/ModelList.vue')['default']
+    NoticeModal: typeof import('./components/NoticeModal.vue')['default']
     PersonalSettings: typeof import('./components/console/PersonalSettings.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

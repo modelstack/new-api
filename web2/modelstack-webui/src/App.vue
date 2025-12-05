@@ -10,12 +10,12 @@
         </router-link>
       </v-app-bar-title>
 
-      <v-tabs v-if="!isConsolePage" v-model="activeTab" class="ml-6 d-none d-lg-flex" color="primary">
-        <v-tab value="home" to="/">
+      <v-tabs  v-model="activeTab" class="ml-6 d-none d-lg-flex" color="primary">
+        <v-tab v-if="!isConsolePage" value="home" to="/">
           <v-icon start>mdi-home</v-icon>
           首页
         </v-tab>
-        <v-tab value="models" to="/models">
+        <v-tab v-if="!isConsolePage" value="models" to="/models">
           <v-icon start>mdi-cube-outline</v-icon>
           模型广场
         </v-tab>

@@ -28,6 +28,7 @@ declare module 'vue-router/auto-routes' {
     '/console/topup': RouteRecordInfo<'/console/topup', '/console/topup', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/models': RouteRecordInfo<'/models', '/models', Record<never, never>, Record<never, never>>,
+    '/oauth/github': RouteRecordInfo<'/oauth/github', '/oauth/github', Record<never, never>, Record<never, never>>,
     '/oauth/oidc': RouteRecordInfo<'/oauth/oidc', '/oauth/oidc', Record<never, never>, Record<never, never>>,
     '/register': RouteRecordInfo<'/register', '/register', Record<never, never>, Record<never, never>>,
     '/reset': RouteRecordInfo<'/reset', '/reset', Record<never, never>, Record<never, never>>,
@@ -82,6 +83,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/models.vue': {
       routes: '/models'
+      views: never
+    }
+    'src/pages/oauth/github.vue': {
+      routes: '/oauth/github'
       views: never
     }
     'src/pages/oauth/oidc.vue': {

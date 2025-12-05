@@ -62,6 +62,8 @@ export interface SystemStatus {
   oidc_client_id?: string
   oidc_authorization_endpoint?: string
   oidc_display_name?: string
+  github_oauth?: boolean
+  github_client_id?: string
   user_agreement_enabled?: boolean
   privacy_policy_enabled?: boolean
   self_use_mode_enabled?: boolean
@@ -115,6 +117,25 @@ export function setUserData(user: any): void {
   localStorage.setItem('user', JSON.stringify(user))
 }
 
+// 获取 OAuth State
+export async function getOAuthState(): Promise<string> {
+  let path = '/api/oauth/state'
+  const affCode = localStorage.getItem('aff')
+  if (affCode && affCode.length > 0) {
+    path += `?aff=${affCode}`
+  }
+  try {
+    const res = await API.get(path)
+    const { success, data } = res.data
+    if (success) {
+      return data
+    }
+  } catch (error) {
+    console.error('Failed to get OAuth state:', error)
+  }
+  return ''
+}
+
 // OIDC 登录跳转
 export function onOIDCClicked(authorizationEndpoint: string, clientId: string): void {
   const redirectUri = `${window.location.origin}/oauth/oidc`
@@ -130,4 +151,13 @@ export function onOIDCClicked(authorizationEndpoint: string, clientId: string): 
   })
   
   window.location.href = `${authorizationEndpoint}?${params.toString()}`
+}
+
+// GitHub OAuth 登录跳转
+export async function onGitHubOAuthClicked(githubClientId: string): Promise<void> {
+  const state = await getOAuthState()
+  if (!state) return
+  window.open(
+    `https://github.com/login/oauth/authorize?client_id=${githubClientId}&state=${state}&scope=user:email`
+  )
 }

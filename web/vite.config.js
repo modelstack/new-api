@@ -25,6 +25,7 @@ const { vitePluginSemi } = pkg;
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/new-ui/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

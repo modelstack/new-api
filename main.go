@@ -30,16 +30,16 @@ import (
 	_ "net/http/pprof"
 )
 
-//go:embed web/dist
+//go:embed all:web2/modelstack-webui/dist
 var buildFS embed.FS
 
-//go:embed web/dist/index.html
+//go:embed web2/modelstack-webui/dist/index.html
 var indexPage []byte
 
-//go:embed all:web2/modelstack-webui/dist
+//go:embed web/dist
 var newUIFS embed.FS
 
-//go:embed web2/modelstack-webui/dist/index.html
+//go:embed web/dist/index.html
 var newUIIndexPage []byte
 
 func main() {

@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/QuantumNous/new-api/common"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,14 +16,14 @@ func SetRouter(router *gin.Engine, buildFS embed.FS, indexPage []byte, newUIFS e
 	SetDashboardRouter(router)
 	SetRelayRouter(router)
 	SetVideoRouter(router)
-	SetNewUIRouter(router, newUIFS)
+	SetWebRouter(router, buildFS, indexPage, newUIIndexPage)
 	frontendBaseUrl := os.Getenv("FRONTEND_BASE_URL")
 	if common.IsMasterNode && frontendBaseUrl != "" {
 		frontendBaseUrl = ""
 		common.SysLog("FRONTEND_BASE_URL is ignored on master node")
 	}
 	if frontendBaseUrl == "" {
-		SetWebRouter(router, buildFS, indexPage, newUIIndexPage)
+		SetNewUIRouter(router, newUIFS)
 	} else {
 		frontendBaseUrl = strings.TrimSuffix(frontendBaseUrl, "/")
 		router.NoRoute(func(c *gin.Context) {

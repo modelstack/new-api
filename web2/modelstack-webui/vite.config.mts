@@ -14,7 +14,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/new-ui/',
+  // base: '/new-ui/',
   plugins: [
     VueRouter({
       dts: 'src/typed-router.d.ts',

@@ -17,7 +17,7 @@ func SetWebRouter(router *gin.Engine, buildFS embed.FS, indexPage []byte, newUII
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
 	router.Use(middleware.GlobalWebRateLimit())
 	router.Use(middleware.Cache())
-	router.Use(static.Serve("/", common.EmbedFolder(buildFS, "web/dist")))
+	router.Use(static.Serve("/", common.EmbedFolder(buildFS, "web2/modelstack-webui/dist")))
 	router.NoRoute(func(c *gin.Context) {
 		if strings.HasPrefix(c.Request.RequestURI, "/v1") || strings.HasPrefix(c.Request.RequestURI, "/api") {
 			controller.RelayNotFound(c)
@@ -35,5 +35,5 @@ func SetWebRouter(router *gin.Engine, buildFS embed.FS, indexPage []byte, newUII
 }
 
 func SetNewUIRouter(router *gin.Engine, newUIFS embed.FS) {
-	router.StaticFS("/new-ui", common.EmbedFolder(newUIFS, "web2/modelstack-webui/dist"))
+	router.StaticFS("/new-ui", common.EmbedFolder(newUIFS, "web/dist"))
 }
